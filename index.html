@@ -1585,34 +1585,34 @@
         }
     }
 
-    if (chatState === 'general_ai' && !handledByPredefined) {
-        try {
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+ if (chatState === 'general_ai' && !handledByPredefined) {
+    try {
+        const apiKey = "AIzaSyA3FCNrwb6IJFQWgER8LXc2uf_vLRArI4"; // <-- Tu clave de API aquí
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-            const chatHistory = [{ role: "user", parts: [{ text: userMessage }] }];
-            const payload = { contents: chatHistory };
+        const chatHistory = [{ role: "user", parts: [{ text: userMessage }] }];
+        const payload = { contents: chatHistory };
 
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-            const result = await response.json();
-            if (result.candidates && result.candidates.length > 0 &&
-                result.candidates[0].content && result.candidates[0].content.parts &&
-                result.candidates[0].content.parts.length > 0) {
-                botResponse = result.candidates[0].content.parts[0].text;
-            } else {
-                botResponse = "Lo siento, no pude generar una respuesta en este momento. Por favor, intenta de nuevo.";
-            }
-        } catch (error) {
-            console.error("Error calling Gemini API:", error);
-            botResponse = "Hubo un error al conectar con la IA. Por favor, inténtalo de nuevo más tarde.";
+        const result = await response.json();
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+            botResponse = result.candidates[0].content.parts[0].text;
+        } else {
+            botResponse = "Lo siento, no pude generar una respuesta en este momento. Por favor, intenta de nuevo.";
         }
+    } catch (error) {
+        console.error("Error calling Gemini API:", error);
+        botResponse = "Hubo un error al conectar con la IA. Por favor, inténtalo de nuevo más tarde.";
     }
-    appendChatMessage(botResponse, 'bot');
+}
+appendChatMessage(botResponse, 'bot');
   }
 
   function handleChatKeyPress(event) {
